@@ -11,9 +11,10 @@ public class app {
         try
         {
             InetAddress addr = InetAddress.getByName("www.psu.edu");
-            System.out.println(addr.getCanonicalHostName());
-            System.out.println(addr.getHostAddress());
-            System.out.println(addr.isReachable(5000));
+            System.out.println("1. "+addr.getCanonicalHostName());
+            System.out.println("2. "+addr.getHostAddress());
+            System.out.println("3. "+addr.isReachable(5000));
+            System.out.println("4. "+addr.getHostName());
         }
         catch(IOException e)
         {
