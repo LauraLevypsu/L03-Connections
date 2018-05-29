@@ -3,9 +3,8 @@ package connections;
 import java.io.IOException;
 import java.net.InetAddress;
 
-public class app {
-
-
+public class app
+{
     public static void main(String args[])
     {
         try
@@ -22,3 +21,5 @@ public class app {
 
     }
 }
+
+// Test commit from @Adriannosaurus
