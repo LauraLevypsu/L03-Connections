@@ -8,7 +8,7 @@ public class app
 {
     public static void main(String args[])
     {
-        try
+        /*try
         {
             InetAddress addr = InetAddress.getByName("www.ncdc.noaa.gov/cdo-web/api/v2/datasets");
             //NOAA Token if someone figures that out: wyYHemlmRuFKCNLHqauEjyhsqDwLDfMR
@@ -22,7 +22,7 @@ public class app
         catch(IOException e)
         {
             e.printStackTrace();
-        }
+        }*/
 
     }
 }
