@@ -23,7 +23,21 @@ public class app
         {
             e.printStackTrace();
         }*/
-
+        
+        
+        try {
+            URL url = new URL("http://www.psu.edu");
+            System.out.println(url.getProtocol());
+            System.out.println(url.getFile());
+            System.out.println(url.getPath());
+            System.out.println(url.getHost());
+            System.out.println(url.getDefaultPort());
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+        
+        
     }
 }
 
