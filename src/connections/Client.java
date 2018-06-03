@@ -28,7 +28,7 @@ public class Client {
         {
             System.out.print("Client connecting... ");
             //i think localAdd might b an inaccurate name.
-            InetAddress localAdd = InetAddress.getByName("http://www.ncdc.noaa.gov/swdiws/'xml'/'warn'/"
+            InetAddress localAdd = InetAddress.getByName("http://www.ncdc.noaa.gov/"//swdiws/'xml'/'warn'/"
                     +startyear+startmonth+startday+
                     ":"+endyear+endmonth+endday);
 
