@@ -26,7 +26,7 @@ public class app
         
         
         try {
-            URL url = new URL("http://www.psu.edu");
+            URL url = new URL("http://www.ncdc.noaa.gov/");
             System.out.println(url.getProtocol());
             System.out.println(url.getFile());
             System.out.println(url.getPath());
