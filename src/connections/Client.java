@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.URL;
 import java.util.Scanner;
 
 public class Client {
@@ -28,11 +29,15 @@ public class Client {
         {
             System.out.print("Client connecting... ");
             //i think localAdd might b an inaccurate name.
-            InetAddress localAdd = InetAddress.getByName("http://www.ncdc.noaa.gov/"//swdiws/'xml'/'warn'/"
+            URL url = new URL("http://www.ncdc.noaa.gov/swdiws/'xml'/'warn'/"
                     +startyear+startmonth+startday+
                     ":"+endyear+endmonth+endday);
 
-            try (Socket cSocket = new Socket(localAdd, 6000);
+            String urlString = url.toString();
+
+            InetAddress address = InetAddress.getByName(new URL(urlString).getHost());
+
+            try (Socket cSocket = new Socket(address, 6000);//last value (the boolean one) refers to the stream
                  PrintWriter out = new PrintWriter(cSocket.getOutputStream(), true);
                  BufferedReader br = new BufferedReader(new InputStreamReader(cSocket.getInputStream())))
             {
