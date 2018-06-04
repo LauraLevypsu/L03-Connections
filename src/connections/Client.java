@@ -71,13 +71,18 @@ public class Client {
             {
                 System.out.println("Success\n");
                 Scanner scnr = new Scanner(System.in);
+
+                String searchTerm;
                 while (true)
                 {
-                    System.out.print("Enter a message (\"Q\" to quit): ");
+                    System.out.print("Enter a search term (\"Q\" to quit): ");
                     String inputLine = scnr.nextLine();
                     if (inputLine.equalsIgnoreCase("q"))
                     {
                         break;
+                    }
+                    else {
+                        searchTerm= inputLine;
                     }
                     System.out.println(inputLine);
                     String response = br.readLine();
