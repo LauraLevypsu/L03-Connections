@@ -65,7 +65,7 @@ public class Client {
 
             //con.setRequestProperty(key, value);
 
-            try (Socket cSocket = new Socket(address, 5555);
+            try (Socket cSocket = new Socket(address, 80);
                  PrintWriter outWriter = new PrintWriter(cSocket.getOutputStream(), true);
                  BufferedReader br = new BufferedReader(new InputStreamReader(cSocket.getInputStream())))
             {
