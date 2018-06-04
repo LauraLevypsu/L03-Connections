@@ -1,60 +1,103 @@
 package connections;
 
-import java.io.IOException;
+import com.sun.net.httpserver.Headers;
+
+import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.InetAddress;
+import java.net.Socket;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
 public class app
 {
-    public static void main(String args[])
+
+    public static void main(String[] args)
     {
-        /*try
+        System.out.println("THE CLIENT\n");
+
+
+        /*int startyear = 2017;
+        int startmonth = 11;
+        int startday = 10;
+
+        int endyear = 2017;
+        int endmonth = 12;
+        int endday = 25;*/
+
+
+        try
         {
-            InetAddress addr = InetAddress.getByName("www.ncdc.noaa.gov/cdo-web/api/v2/datasets");
-            //NOAA Token if someone figures that out: wyYHemlmRuFKCNLHqauEjyhsqDwLDfMR
-            System.out.println("Canon Host Name: " + addr.getCanonicalHostName());
-            System.out.println("Host Name: " + addr.getHostName());
-            System.out.println("Host Address: " + addr.getHostAddress());
-            System.out.println("Reachable: " + addr.isReachable(5000));
-            
-            
+            System.out.print("Client connecting... ");
+
+            /*URL url = new URL("http://www.ncdc.noaa.gov/swdiws/xml/warn/"
+                    +startyear+startmonth+startday+
+                    ":"+endyear+endmonth+endday);*/
+
+            URL url = new URL("https://api.twitter.com/1.1/search/tweets.json");
+
+            String urlString = url.toString();
+
+            Headers header = new Headers();
+
+            String token = "2874292722-FTI8Ak0b7XcchnyCNS2OASn3XnT4Ba1zwAISMXN";
+
+            InetAddress address = InetAddress.getByName(new URL(urlString).getHost()); //, header = token
+
+
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+
+
+            String key = "token =";
+            String value= token;
+
+
+            Map<String, String> parameters = new HashMap<>();
+            parameters.put(key, value);
+
+            con.setDoOutput(true);
+            DataOutputStream out = new DataOutputStream(con.getOutputStream());
+            out.writeBytes(ParameterStringBuilder.getParamsString(parameters));
+            out.flush();
+            out.close();
+
+            //con.setRequestProperty(key, value);
+
+            try (Socket cSocket = new Socket(address, 80);
+                 PrintWriter outWriter = new PrintWriter(cSocket.getOutputStream(), true);
+                 BufferedReader br = new BufferedReader(new InputStreamReader(cSocket.getInputStream())))
+            {
+                System.out.println("Success\n");
+                Scanner scnr = new Scanner(System.in);
+
+                String searchTerm;
+                while (true)
+                {
+                    System.out.print("Enter a search term (\"Q\" to quit): ");
+                    String inputLine = scnr.nextLine();
+                    if (inputLine.equalsIgnoreCase("q"))
+                    {
+                        break;
+                    }
+                    else {
+                        searchTerm= inputLine;
+                    }
+                    System.out.println(inputLine);
+                    String response = br.readLine();
+                    System.out.println("   Server response: " + response);
+                }
+            }
         }
-        catch(IOException e)
+        catch (IOException e)
         {
             e.printStackTrace();
-        }*/
-        
-        
-        try {
-            URL url = new URL("http://www.ncdc.noaa.gov/");
-            System.out.println(url.getProtocol());
-            System.out.println(url.getFile());
-            System.out.println(url.getPath());
-            System.out.println(url.getHost());
-            System.out.println(url.getDefaultPort());
         }
-        catch(IOException e){
-            e.printStackTrace();
-        }
-        
-        
+
+        System.out.println("\nGoodbye");
+
     }
+
 }
-
-/*
-
-Twitter info: https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets.html
-
-Twitter API get request
-
-/*
-
-
-
-curl --request GET
- --url 'https://api.twitter.com/1.1/search/tweets.json?q=nasa&result_type=popular' 
- --header 'authorization: OAuth oauth_consumer_key="consumer-key-for-app", 
- oauth_nonce="generated-nonce", oauth_signature="generated-signature", 
- oauth_signature_method="HMAC-SHA1", oauth_timestamp="generated-timestamp", 
- oauth_token="access-token-for-authed-user", oauth_version="1.0"' */
-
