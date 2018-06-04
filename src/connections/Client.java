@@ -1,12 +1,14 @@
 package connections;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import com.sun.net.httpserver.Headers;
+
+import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Client {
@@ -16,29 +18,55 @@ public class Client {
         System.out.println("THE CLIENT\n");
 
 
-        int startyear = 2017;
+        /*int startyear = 2017;
         int startmonth = 11;
         int startday = 10;
 
         int endyear = 2017;
         int endmonth = 12;
-        int endday = 25;
+        int endday = 25;*/
 
 
         try
         {
             System.out.print("Client connecting... ");
-            //i think localAdd might b an inaccurate name.
-            URL url = new URL("http://www.ncdc.noaa.gov/swdiws/'xml'/'warn'/"
+
+            /*URL url = new URL("http://www.ncdc.noaa.gov/swdiws/xml/warn/"
                     +startyear+startmonth+startday+
-                    ":"+endyear+endmonth+endday);
+                    ":"+endyear+endmonth+endday);*/
+
+            URL url = new URL("https://api.twitter.com/1.1/search/tweets.json");
 
             String urlString = url.toString();
 
-            InetAddress address = InetAddress.getByName(new URL(urlString).getHost());
+            Headers header = new Headers();
 
-            try (Socket cSocket = new Socket(address, 6000);//last value (the boolean one) refers to the stream
-                 PrintWriter out = new PrintWriter(cSocket.getOutputStream(), true);
+            String token = "2874292722-FTI8Ak0b7XcchnyCNS2OASn3XnT4Ba1zwAISMXN";
+
+            InetAddress address = InetAddress.getByName(new URL(urlString).getHost()); //, header = token
+
+
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+
+
+            String key = "token =";
+            String value= token;
+
+
+            Map<String, String> parameters = new HashMap<>();
+            parameters.put(key, value);
+
+            con.setDoOutput(true);
+            DataOutputStream out = new DataOutputStream(con.getOutputStream());
+            out.writeBytes(ParameterStringBuilder.getParamsString(parameters));
+            out.flush();
+            out.close();
+
+            //con.setRequestProperty(key, value);
+
+            try (Socket cSocket = new Socket(address, 5555);
+                 PrintWriter outWriter = new PrintWriter(cSocket.getOutputStream(), true);
                  BufferedReader br = new BufferedReader(new InputStreamReader(cSocket.getInputStream())))
             {
                 System.out.println("Success\n");
@@ -51,7 +79,7 @@ public class Client {
                     {
                         break;
                     }
-                    out.println(inputLine);
+                    System.out.println(inputLine);
                     String response = br.readLine();
                     System.out.println("   Server response: " + response);
                 }
